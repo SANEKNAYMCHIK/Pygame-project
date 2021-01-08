@@ -16,32 +16,54 @@ class MainCharacter(pygame.sprite.Sprite):
         self.rect.x = 250
         self.rect.y = 250
         self.side = 'r'
-        self.angle = 90
+        self.angle = 0
         self.flag_x = False
 
     def update(self, args):
+        side = self.side
         if args[pygame.K_UP]:
-            if self.side != 'u':
+            if self.side != 'u' and self.side != 'd':
+                if side == 'r':
+                    self.image = pygame.transform.rotate(self.image, self.angle + 90)
+                else:
+                    self.image = pygame.transform.rotate(self.image, self.angle - 90)
+            elif self.side == 'd':
                 self.image = pygame.transform.flip(self.image, False, True)
-                if self.angle != 0:
-                    self.image = pygame.transform.rotate()
-            self.rect.y -= 20
             self.side = 'u'
+            self.rect.y -= 20
+
         elif args[pygame.K_DOWN]:
-            if self.side != 'd':
+            if self.side != 'd' and self.side != 'u':
+                if side == 'r':
+                    self.image = pygame.transform.rotate(self.image, self.angle - 90)
+                else:
+                    self.image = pygame.transform.rotate(self.image, self.angle + 90)
+            elif self.side == 'u':
                 self.image = pygame.transform.flip(self.image, False, True)
-            self.rect.y += 20
             self.side = 'd'
+            self.rect.y += 20
+
         elif args[pygame.K_RIGHT]:
-            if self.side != 'r':
+            if self.side != 'r' and self.side != 'l':
+                if side == 'u':
+                    self.image = pygame.transform.rotate(self.image, self.angle - 90)
+                else:
+                    self.image = pygame.transform.rotate(self.image, self.angle + 90)
+            elif self.side == 'l':
                 self.image = pygame.transform.flip(self.image, True, False)
-            self.rect.x += 20
             self.side = 'r'
+            self.rect.x += 20
+
         elif args[pygame.K_LEFT]:
-            if self.side != 'l':
+            if self.side != 'l' and self.side != 'r':
+                if side == 'u':
+                    self.image = pygame.transform.rotate(self.image, self.angle + 90)
+                else:
+                    self.image = pygame.transform.rotate(self.image, self.angle - 90)
+            elif self.side == 'r':
                 self.image = pygame.transform.flip(self.image, True, False)
-            self.rect.x -= 20
             self.side = 'l'
+            self.rect.x -= 20
 
 
 pygame.init()
